@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
           const roles = res.data.roles
           store.dispatch('GenerateRoutes', { roles }).then(() => {
-            router.addRoutes(store.getters.addRoutes)
+            router.addRoutes(store.getters.addRouters)
             next({ ...to, replace: true })
           })
           next()
