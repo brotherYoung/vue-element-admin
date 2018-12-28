@@ -4,7 +4,7 @@
     <sidebar class="sidebar-container"/>
     <div class="main-container">
       <navbar/>
-      <tagsview/>
+      <tags-view/>
       <app-main/>
     </div>
   </div>

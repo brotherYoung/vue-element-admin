@@ -29,11 +29,11 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: 'Dashboard', icon: 'dashboard', noCache: true }
     }]
   }
 
@@ -182,6 +182,20 @@ export const asyncRouterMap = [
         name: 'Form',
         component: () => import('@/views/form/index'),
         meta: { title: 'Form', icon: 'form', roles: ['admin'] }
+      }
+    ]
+  },
+
+  {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/table',
+    children: [
+      {
+        path: 'index',
+        name: 'Tinymce',
+        component: () => import('@/components/Tinymce'),
+        meta: { title: 'Tinymce', icon: 'form', roles: ['admin'] }
       }
     ]
   },
