@@ -38,11 +38,11 @@ export const constantRouterMap = [
   }
 
   /*  {
-    path: '/example',
+    path: '/rtf',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/rtf/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    meta: { title: 'Example', icon: 'rtf' },
     children: [
       {
         path: 'table',
@@ -187,15 +187,30 @@ export const asyncRouterMap = [
   },
 
   {
-    path: '/example',
+    path: '/rtf',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/rtf/list',
+    name: 'Rtf',
+    meta: { title: 'Rtf', icon: 'rtf' },
     children: [
       {
-        path: 'index',
-        name: 'Tinymce',
-        component: () => import('@/components/Tinymce'),
-        meta: { title: 'Tinymce', icon: 'form', roles: ['admin'] }
+        path: 'create',
+        component: () => import('@/views/rtf/create'),
+        name: 'CreateArticle',
+        meta: { title: 'Create Article', icon: 'form' }
+      },
+      {
+        path: 'edit/:id(\\d+)',
+        component: () => import('@/views/rtf/edit'),
+        name: 'EditArticle',
+        meta: { title: 'Edit Article', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'list',
+        component: () => import('@/views/rtf/list'),
+        name: 'ArticleList',
+        meta: { title: 'articleList', icon: 'form' }
       }
     ]
   },
