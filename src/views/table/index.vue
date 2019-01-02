@@ -1,13 +1,35 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input :placeholder="('table.title')" v-model="listQuery.title" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
-      <el-select v-model="listQuery.type" :placeholder="('table.type')" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key"/>
-      </el-select>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{ ('table.search') }}</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">{{ ('table.add') }}</el-button>
+    <div class="filter-container" style="text-align: right">
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleEdit">修改科室</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">添加医生</el-button>
     </div>
+
+    <el-row>
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>科室信息</span>
+          <el-button :disabled="departmentFormDisabled" style="float: right; padding: 3px 0" type="text">确定</el-button>
+        </div>
+        <el-form ref="departmentForm" :model="departmentForm" label-width="80px">
+          <el-col :span="6">
+            <el-form-item label="科室名称">
+              <el-input v-model="departmentForm.name" :disabled="departmentFormDisabled" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="科室电话">
+              <el-input v-model="departmentForm.name" :disabled="departmentFormDisabled" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="22">
+            <el-form-item prop="content" label="科室简介" style="margin-bottom: 30px;">
+              <Tinymce :readonly="1" />
+            </el-form-item>
+          </el-col>
+        </el-form>
+      </el-card>
+    </el-row>
 
     <el-table
       v-loading="listLoading"
@@ -122,7 +144,8 @@
 <script>
 import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
 import { parseTime } from '@/utils'
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import Pagination from '@/components/Pagination'
+import Tinymce from '@/components/Tinymce/index' // Secondary package based on el-pagination
 
 const calendarTypeOptions = [
   { key: 'CN', display_name: 'China' },
@@ -139,7 +162,7 @@ const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
 
 export default {
   name: 'ComplexTable',
-  components: { Pagination },
+  components: { Tinymce, Pagination },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -155,6 +178,7 @@ export default {
   },
   data() {
     return {
+      departmentFormDisabled: true,
       tableKey: 0,
       list: null,
       total: 0,
@@ -166,6 +190,16 @@ export default {
         title: undefined,
         type: undefined,
         sort: '+id'
+      },
+      departmentForm: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        content: ''
       },
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
@@ -332,7 +366,13 @@ export default {
           return v[j]
         }
       }))
+    },
+    handleEdit() {
+      window.tinymce.activeEditor.getBody().setAttribute('contenteditable', true)
+      window.tinymce.activeEditor.dom.setStyle('tinymce', 'background-color', '#fff')
+      this.departmentFormDisabled = false
     }
   }
 }
 </script>
+
