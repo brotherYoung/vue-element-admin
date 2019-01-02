@@ -169,6 +169,12 @@ export const asyncRouterMap = [
         name: 'Tree',
         component: () => import('@/views/tree/index'),
         meta: { title: 'Tree', icon: 'tree', roles: ['editor'] }
+      },
+      {
+        path: 'inlineEditTable',
+        name: 'InlineEditTable',
+        component: () => import('@/views/table/inlineEditTable'),
+        meta: { title: 'InlineEditTable', icon: 'tree', roles: ['editor'] }
       }
     ]
   },
